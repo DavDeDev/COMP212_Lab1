@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DavidPietrocola_Lab1.exercise1
 {
-    internal class Class1
+    internal class StackAndQueue
     {
         //Use example(s) to illustrate the features of stack and queue
         public static void Main(string[] args)
