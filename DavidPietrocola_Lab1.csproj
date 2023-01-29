@@ -5,7 +5,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>DavidPietrocola_Lab1.exercise1.Class1</StartupObject>
+    <StartupObject>DavidPietrocola_Lab1.exercise1.TypeConstraint</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
