@@ -5,12 +5,11 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject></StartupObject>
+    <StartupObject>COMP212_Lab1.exercise3.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="exercise2\" />
-    <Folder Include="exercise3\" />
   </ItemGroup>
 
 </Project>
