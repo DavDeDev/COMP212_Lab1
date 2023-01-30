@@ -21,19 +21,18 @@ namespace COMP212_Lab1.exercise3
     {
         static void Main(string[] args)
         {
-            const int OFFSET = 2;
-            const int LENGTH = 3;
-
-
-            Dictionary<int, Medalist[]> medalists = new Dictionary<int, Medalist[]>();
+            Dictionary<int, LinkedList<Medalist>> medalists = new Dictionary<int, LinkedList<Medalist>>();
 
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
 
             // Read data from file 
-            using (var reader = new StreamReader(projectDirectory+"/Medals.csv"))
+            using (var reader = new StreamReader(projectDirectory + "/Medals.csv"))
             {
-                reader.ReadLine(); //Skips first line
+                const int OFFSET = 2;
+                const int LENGTH = 3;
+                
+                reader.ReadLine(); //Skips header line
 
                 while (!reader.EndOfStream) // Until it reaches the end
                 {
@@ -54,7 +53,7 @@ namespace COMP212_Lab1.exercise3
                     AddMedalist(medalists, year, newMedalist);
 
                 }
-                
+
                 #region TEST
                 Console.WriteLine("=======TEST========");
                 //1. Add new medalist information to the data structure
@@ -76,7 +75,7 @@ namespace COMP212_Lab1.exercise3
 
                 foreach (Medalist medalist in medalists[2008])
                 {
-                    Console.WriteLine(medalist.fullName); // This will print the list of all medalists in 2008, excluding the testMedalist
+                    Console.WriteLine(medalist.fullName); // This will print the list of all medalists in 2008, after we removed testMedalist
                 }
 
                 //3. Implement a generic Search method that implements the linear-search algorithm.
@@ -89,27 +88,36 @@ namespace COMP212_Lab1.exercise3
         }
 
         //1. Add new medalist information to the data structure
-        public static void AddMedalist(Dictionary<int, Medalist[]> medalists, int key, Medalist newMedalist)
+        public static void AddMedalist(Dictionary<int, LinkedList<Medalist>> medalists, int key, Medalist newMedalist)
         {
-            try
+            if (medalists.ContainsKey(key))
             {
-                medalists.Add(key, new Medalist[] { newMedalist });
+                medalists[key].AddLast(newMedalist);
             }
-            catch (ArgumentException)
+            else
             {
-                medalists[key] = medalists[key].Append(newMedalist).ToArray(); // If the year already exists, we add the new medalist to the array
+                LinkedList<Medalist> newLinkedList = new LinkedList<Medalist>();
+                newLinkedList.AddLast(newMedalist);
+                medalists.Add(key, newLinkedList);
             }
+
         }
 
         //2. Delete a specific data from the data structure
-        public static void DeleteMedalist(Dictionary<int, Medalist[]> medalists, int key, Medalist medalistToRemove)
+        public static void DeleteMedalist(Dictionary<int, LinkedList<Medalist>> medalists, int key, Medalist medalistToBeRemoved)
         {
-            // We filter the array of Medalists by removing the one that matches the medalist that we are passing
-            medalists[key] = medalists[key].Where(medalist => medalist != medalistToRemove).ToArray();
+            if (medalists.ContainsKey(key))
+            {
+                medalists[key].Remove(medalistToBeRemoved);
+            }
+            else{
+                Console.WriteLine("The key does not exist");
+            }
         }
 
+
         //3. Implement a generic Search method that implements the linear-search algorithm.Search method should compare the search key with each element in the data source until all elements has been processed.The output of this method can be IEnumerable<T>
-        //public static IEnumerable<T> Search<T>()
+        //public static IEnumerable<T> Search<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         //{
             
         //}
