@@ -27,11 +27,11 @@ namespace COMP212_Lab1.exercise3
 
             Dictionary<int, Medalist[]> medalists = new Dictionary<int, Medalist[]>();
 
-            string filePath = System.IO.Path.GetFullPath("Medals.csv");
-            Console.WriteLine(filePath);
+            string workingDirectory = Environment.CurrentDirectory;
+            string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
 
             // Read data from file 
-            using (var reader = new StreamReader(@"!!ADD THE FULL PATH TO YOUR MEDALS.CSV"))
+            using (var reader = new StreamReader(projectDirectory+"/Medals.csv"))
             {
                 reader.ReadLine(); //Skips first line
 
@@ -54,6 +54,7 @@ namespace COMP212_Lab1.exercise3
                     AddMedalist(medalists, year, newMedalist);
 
                 }
+                
                 #region TEST
                 Console.WriteLine("=======TEST========");
                 //1. Add new medalist information to the data structure
@@ -84,7 +85,6 @@ namespace COMP212_Lab1.exercise3
                 #endregion
 
 
-                Console.WriteLine(medalists.Count);
             }
         }
 
@@ -102,10 +102,10 @@ namespace COMP212_Lab1.exercise3
         }
 
         //2. Delete a specific data from the data structure
-        public static void DeleteMedalist(Dictionary<int, Medalist[]> medalists, int key, Medalist newMedalist)
+        public static void DeleteMedalist(Dictionary<int, Medalist[]> medalists, int key, Medalist medalistToRemove)
         {
             // We filter the array of Medalists by removing the one that matches the medalist that we are passing
-            medalists[key] = medalists[key].Where(val => val != newMedalist).ToArray();
+            medalists[key] = medalists[key].Where(medalist => medalist != medalistToRemove).ToArray();
         }
 
         //3. Implement a generic Search method that implements the linear-search algorithm.Search method should compare the search key with each element in the data source until all elements has been processed.The output of this method can be IEnumerable<T>
