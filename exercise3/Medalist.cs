@@ -117,7 +117,7 @@ namespace COMP212_Lab1.exercise3
 
 
         //3. Implement a generic Search method that implements the linear-search algorithm.Search method should compare the search key with each element in the data source until all elements has been processed.The output of this method can be IEnumerable<T>
-        //public static IEnumerable<T> Search<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        //public static IEnumerable<T> Search<T>()
         //{
             
         //}
