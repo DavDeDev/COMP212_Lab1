@@ -77,12 +77,32 @@ namespace COMP212_Lab1.exercise3
                 {
                     Console.WriteLine(medalist.fullName); // This will print the list of all medalists in 2008, after we removed testMedalist
                 }
-
+                Console.WriteLine("=======Searching specific medalist========");
                 //3. Implement a generic Search method that implements the linear-search algorithm.
                 //Search method should compare the search key with each element in the data source until all elements has been processed.
                 //The output of this method can be IEnumerable<T>
-                #endregion
+                Console.Write("Enter year: ");
+                int Searchyear = int.Parse(Console.ReadLine());
 
+                Console.Write("Enter full name: ");
+                string SearchfullName = Console.ReadLine();
+
+                IEnumerable<Medalist> searchResult = Search<Medalist>(medalists, Searchyear, (medalist) => medalist.fullName == SearchfullName);
+
+                if (searchResult.Count() > 0)
+                {
+                    foreach (Medalist medalist in searchResult)
+                    {
+                        Console.WriteLine("-------------------------------------------------------------------------------");
+                        Console.WriteLine("Athlete Name: " + medalist.fullName + " - Year: " + Searchyear + " - Medal: " + string.Join(", ", medalist.medals));
+
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No elements found");
+                }
+                #endregion
 
             }
         }
@@ -117,10 +137,24 @@ namespace COMP212_Lab1.exercise3
 
 
         //3. Implement a generic Search method that implements the linear-search algorithm.Search method should compare the search key with each element in the data source until all elements has been processed.The output of this method can be IEnumerable<T>
-        //public static IEnumerable<T> Search<T>()
-        //{
-            
-        //}
+        public static IEnumerable<T> Search<T>(Dictionary<int, LinkedList<Medalist>> medalists, int key, Func<Medalist, bool> searchCriteria)
+        {
+            if (medalists.ContainsKey(key))
+            {
+                LinkedList<Medalist> medalistList = medalists[key];
+                foreach (Medalist medalist in medalistList)
+                {
+                    if (searchCriteria(medalist))
+                    {
+                        yield return (T)(object)medalist;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("The key does not exist");
+            }
+        }
     }
 
 
@@ -130,7 +164,7 @@ namespace COMP212_Lab1.exercise3
         public string fullName { get; set; }
         //private int year { get; set; } //! We use year as a key for the dictionary
         public int[] medals { get; set; } = new int[3]; //! Stores the 3 counts of medals [ Gold, Silver, Bronze]
-
+        public int year { get; set; }
 
     }
 }
