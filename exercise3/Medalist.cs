@@ -82,25 +82,25 @@ namespace COMP212_Lab1.exercise3
                 //Search method should compare the search key with each element in the data source until all elements has been processed.
                 //The output of this method can be IEnumerable<T>
                 Console.Write("Enter year: ");
-                int searchYear = int.Parse(Console.ReadLine());
+                int Searchyear = int.Parse(Console.ReadLine());
 
-                IEnumerable<Medalist> results = Program.Search<Medalist>(medalists, searchYear, searchCriteria);
-                if (results.Any())
+                Console.Write("Enter full name: ");
+                string SearchfullName = Console.ReadLine();
+
+                IEnumerable<Medalist> searchResult = Search<Medalist>(medalists, Searchyear, (medalist) => medalist.fullName == SearchfullName);
+
+                if (searchResult.Count() > 0)
                 {
-                    foreach (Medalist medalist in results)
+                    foreach (Medalist medalist in searchResult)
                     {
                         Console.WriteLine("-------------------------------------------------------------------------------");
-                        Console.WriteLine("Athlete Name: " + medalist.fullName + " - Year: " + searchYear + " - Medal: " + string.Join(", ", medalist.medals));
+                        Console.WriteLine("Athlete Name: " + medalist.fullName + " - Year: " + Searchyear + " - Medal: " + string.Join(", ", medalist.medals));
+
                     }
                 }
                 else
                 {
                     Console.WriteLine("No elements found");
-                }
-
-                static bool searchCriteria(Medalist medalist)
-                {
-                    return medalist.fullName.Contains(medalist.fullName);
                 }
                 #endregion
 
